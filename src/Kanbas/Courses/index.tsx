@@ -3,6 +3,7 @@ import CourseNavigation from "./Navigation";
 import Modules from "./Modules/index"
 import Home from "./Home/index"
 import Assignments from "./Assignments";
+import AssignmentEditor from "./Assignments/Editor";
 
 
 export default function index(){
@@ -22,7 +23,7 @@ export default function index(){
                                 <Route path="Home" element={<Home/>}/>
                                 <Route path="/Modules" element={<Modules />}/>
                                 <Route path="Assignments" element={<Assignments/>}/>
-                                <Route path="Assignments/:aid" element={<h2>Assignment Editor</h2>}/>
+                                <Route path="Assignments/:aid" element={<AssignmentEditor/>}/>
                                 <Route path="People" element={<h2>People</h2>}/>
                             </Routes>
                         </td>

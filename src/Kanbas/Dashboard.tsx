@@ -15,11 +15,14 @@ export default function Dashboard() {
       <div id="wd-dashboard-courses">
         <Link
           className="wd-dashboard-course-link"
-          to="/Kanbas/Course/1234/Home"
+          to="/Kanbas/Courses/1234/Assignments"
         />
         <img src={reactImage} width={200} />
         <div>
-          <h5>CS1234 React JS</h5>
+          <h5> <Link
+          className="wd-dashboard-course-link"
+          to="/Kanbas/Courses/1234/Assignments"
+        >CS1234 React JS</Link></h5>
           <p className="wd-dashboard-course-title">
             Full stack software developer
           </p>
