@@ -9,6 +9,7 @@ export default function KanbasNavigation(){
             <Link to="/Kanbas/Calendar" id="wd-calendar-link">Calender</Link><br/>
             <Link to="/Kanbas/Inbox" id="wd-inbox-link">Inbox</Link><br/>
             <Link to="/Labs" id="wd-labs-link">Labs</Link><br/>
+            <Link to="/landingPage" id="wd-landingPage-link">LandingPage</Link>
         </div>
     )
 }

@@ -17,7 +17,7 @@ export default function Dashboard() {
           className="wd-dashboard-course-link"
           to="/Kanbas/Courses/1234/Assignments"
         />
-        <img src={reactImage} width={200} />
+        <img src={reactImage } width={200} />
         <div>
           <h5> <Link
           className="wd-dashboard-course-link"
@@ -121,12 +121,6 @@ export default function Dashboard() {
           <button>Go</button>
         </div>
       </div>
-
-
-
-
-
-
     </div>
   );
 }

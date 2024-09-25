@@ -4,12 +4,6 @@ export default function Lab1() {
         <h2>Lab 1</h2>
         <h3>HTML Examples</h3>
         <div id="wd-h-tag">
-          <h4>Heading Tags</h4>
-          ...
-        </div>
-        <div id="wd-p-tag">
-          <h4>Paragraph Tag</h4>
-          <p id="wd-p-1"> ... </p>
           This is the first paragraph. The paragraph tag is used to format
           vertical gaps between long pieces of text like this one. This is the
           second paragraph. Even though there is a deliberate white gap between
@@ -54,7 +48,7 @@ export default function Lab1() {
             <li>Flip and cook the other side.</li>
             <li>Serve and enjoy!</li>
           </ol>
-          <h1>My favorite recipe: Pasta</h1>
+          <p>My favorite recipe: Pasta</p>
           <ol id="wd-your-favorite-recipe">
             <li>
               Add salt, water, and pasta on a pan. Boil the pasta until Al
@@ -70,6 +64,16 @@ export default function Lab1() {
               Add basil or parmasan as seasoning and it is ready to be served
             </li>
           </ol>
+          <h5>Unordered List Tag</h5>
+          My favorite books (in no particular order)
+          <ul id="wd-my-books">
+            <li>Dune</li>
+            <li>Lord of the Rings</li>
+            <li>Ender's Game</li>
+            <li>Red Mars</li>
+            <li>The Forever War</li>
+          </ul>
+          <p>My favorite book list</p>
           <ul id="wd-your-books">
             <li>Harry Potter and the Deathly Hallows</li>
             <li>Harry Potter and the Goblet Of Fire</li>
