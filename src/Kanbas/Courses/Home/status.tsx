@@ -7,7 +7,6 @@ import { CiStreamOn } from "react-icons/ci";
 import { TfiAnnouncement } from "react-icons/tfi";
 import { IoAnalytics } from "react-icons/io5";
 import { IoIosNotifications } from "react-icons/io";
-{/* Find more icons */}
 export default function CourseStatus() {
   return (
     <div id="wd-course-status" style={{ width: "300px" }}>

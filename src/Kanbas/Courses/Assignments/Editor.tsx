@@ -101,7 +101,6 @@ export default function AssignmentEditor() {
             <input type="date" value="2000-01-20" className="form-control" />
           </div>
         </div>
-  
         <div className="row mb-3">
           <div className="col-6">
             <label id="wd-avaliable-from">Available from</label>
