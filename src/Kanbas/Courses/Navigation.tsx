@@ -11,6 +11,7 @@ export default function CourseNavigation(){
                 <Link id={cid} to={`/Kanbas/Courses/${cid}/${link}`}
                 className="list-group-item text-danger border border-0">{link}</Link>
             ))}
+
         </div>
     )
 }
