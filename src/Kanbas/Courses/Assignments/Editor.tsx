@@ -7,52 +7,67 @@ import React from "react";
 import { Link } from "react-router-dom";
 export default function AssignmentEditor() 
 {
-  const {cid, aid} = useParams();
+  const { cid, aid } = useParams();
   const dispatch = useDispatch();
-  const assignmentList = useSelector((state: any) => state.assignmentReducer?.assignments || []
+  const assignmentList = useSelector(
+    (state: any) => state.assignmentReducer?.assignments || []
   );
   const navigate = useNavigate();
 
-  const existingAssignment = aid !== 'new' ? 
-  assignmentList.find((a:any) => a._id === aid) : null;
+  const existingAssignment =
+    aid !== "new"
+      ? assignmentList.find((a: any) => a._id === aid)
+      : null;
 
-  const [assignment, setAssignment] = React.useState(existingAssignment || {
-    _id: '',
-    title: '',
-    description: '',
-    points: 100,
-    dueDate: '',
-    availableFrom: '',
-    avaliableUntil: '',
-    course: cid,
-  }) 
+  const [assignment, setAssignment] = useState(
+    existingAssignment || {
+      _id: "",
+      title: "",
+      description: "",
+      points: 100,
+      dueDate: "",
+      availableFrom: "",
+      availableUntil: "",
+      course: cid,
+    }
+  );
 
   const handleSave = () => {
     if (assignment.title) {
-      if (aid === 'new') {
-        dispatch(addAssignment({
-          ...assignment,
-          _id: new Date().getTime().toString()
-        }));
-        console.log(assignment.name)
+      if (aid === "new") {
+        dispatch(
+          addAssignment({
+            ...assignment,
+            _id: new Date().getTime().toString(),
+          })
+        );
       } else {
         dispatch(updateAssignment(assignment));
       }
       navigate(`/Kanbas/Courses/${cid}/Assignments`);
     }
-  }
+  };
   return (
     <div id="wd-assignments-editor" >
     <h5>Assignment name</h5>
 
-    <input id="wd-name" className="form-control" onChange={(e) => setAssignment({...assignment, title: e.target.value})} value={assignment.title}/>
+    <input
+        id="wd-name"
+        className="form-control"
+        onChange={(e) =>
+          setAssignment({ ...assignment, title: e.target.value })
+        }
+        value={assignment.title}
+      />
     <br />
-    <textarea 
-    className="form-control" 
-    id="wd-description" 
-    value={assignment.description} 
-    onChange={(e) => setAssignment({...assignment, description: e.target.value})}
-></textarea>
+      <textarea
+        className="form-control"
+        id="wd-description"
+        value={assignment.description}
+        onChange={(e) =>
+          setAssignment({ ...assignment, description: e.target.value })
+        }
+      ></textarea>
     <br />
   
     <div className="row mb-3">
@@ -170,7 +185,19 @@ export default function AssignmentEditor()
     </div>
   
     <hr />
-    <Link to={`/Kanbas/Courses/${cid}/Assignments`}><button id="wd-cancel" className="btn btn-secondary me-2">Cancel</button></Link>
-    <button onClick={handleSave} type="button"id="wd-save" disabled={!assignment.title} className="btn btn-primary me-2">Save</button>
+      <Link to={`/Kanbas/Courses/${cid}/Assignments`}>
+        <button id="wd-cancel" className="btn btn-secondary me-2">
+          Cancel
+        </button>
+      </Link>
+      <button
+        onClick={handleSave}
+        type="button"
+        id="wd-save"
+        disabled={!assignment.title}
+        className="btn btn-primary me-2"
+      >
+        Save
+      </button>
   </div>
   );}

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { FaSearch, FaCheckCircle, FaEllipsisV,  FaTrash } from "react-icons/fa"; 
+import { FaPlus, FaSearch, FaEllipsisV, FaTrash } from "react-icons/fa"; 
 import { FaBook } from "react-icons/fa6";
 import { BsGripVertical } from "react-icons/bs";
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteAssignment } from './reducer';
+import GreenCheckmark from '../Modules/GreenCheckmark';
 
 export default function Assignments() {
   const { cid } = useParams();
@@ -53,20 +54,24 @@ export default function Assignments() {
       </div>
 
       <div className="card">
-        <div className="card-header d-flex justify-content-between align-items-center py-4 bg-white">
-          <h5 className="mb-0">
+        <div className="card-header bg-white d-flex justify-content-between align-items-center py-4">
+          <h5 className="mb-0 text-black">
             <BsGripVertical className="me-2 text-muted" size={25} />
             ASSIGNMENTS
           </h5>
           <div className="position-relative">
-            <h6 className="px-3 py-2">
-              40% Finished
-            </h6>
+          <h6 className="px-3 py-2">
+              40% Finished 
+              <span> </span>
+              <span> </span>
+              <span> </span>
+              <FaPlus />
+            </h6> 
           </div>
         </div>
 
-        <ul className="list-group list-group-flush">
-          {courseAssignments.length > 0 ? (
+        <ul className="list-group">
+        {courseAssignments.length > 0 ? (
             courseAssignments.map((assignment: any) => (
               <li key={assignment._id} className="list-group-item py-4">
                 <div className="d-flex align-items-center">
@@ -91,7 +96,7 @@ export default function Assignments() {
                     </div>
                   </div>
                   <div className="d-flex align-items-center">
-                    <FaCheckCircle className="text-success me-3" />
+                    <GreenCheckmark />
                     <button 
                       className="btn btn-link text-danger me-2"
                       onClick={() => handleDeleteClick(assignment)}
