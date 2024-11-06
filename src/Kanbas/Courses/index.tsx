@@ -7,12 +7,10 @@ import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
 import { FaAlignJustify } from "react-icons/fa";
 import PeopleTable from './People/PeopleTable';
-import {courses} from '../Database'
-export default function index() {
+export default function index({ courses }: { courses: any[]; }) {
   const { cid } = useParams();
   const course = courses.find((course) => course._id === cid);
   const {pathname} = useLocation();
-  console.log(pathname.split("/").length)
   return (
     <div id="wd-courses">
       <h2 className="text-danger">
@@ -32,7 +30,7 @@ export default function index() {
             <Route path="Home" element={<Home />} />
             <Route path="/Modules" element={<Modules />} />
             <Route path="Assignments" element={<Assignments />} />
-            <Route path="Assignments/:aid" element={<AssignmentEditor />} />
+            <Route path="Assignments/:aid" element={<AssignmentEditor/>} />
             <Route path="/People" element={<PeopleTable/>} />
           </Routes>
         </div></div>
