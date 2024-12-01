@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import React from "react";
 import { Link } from "react-router-dom";
+import * as coursesClient from "../client";
+import * as assignmentClient from "./client"
+import { fetchAssignment } from "../../../Labs/Lab5/client";
 export default function AssignmentEditor() 
 {
   const { cid, aid } = useParams();
@@ -12,41 +15,60 @@ export default function AssignmentEditor()
   const assignmentList = useSelector(
     (state: any) => state.assignmentReducer?.assignments || []
   );
+  
   const navigate = useNavigate();
+
 
   const existingAssignment =
     aid !== "new"
       ? assignmentList.find((a: any) => a._id === aid)
       : null;
 
-  const [assignment, setAssignment] = useState(
-    existingAssignment || {
-      _id: "",
-      title: "",
-      description: "",
-      points: 100,
-      dueDate: "",
-      availableFrom: "",
-      availableUntil: "",
-      course: cid,
-    }
-  );
+  const [title, setTitle] = useState(existingAssignment?.title || "");
+  const [description, setDescription] = useState(existingAssignment?.description || "");
+  const [points, setPoints] = useState(existingAssignment?.points || 100);
+  const [dueDate, setDueDate] = useState(existingAssignment?.dueDate || "");
+  const [availableFrom, setAvailableFrom] = useState(existingAssignment?.availableFrom || "");
+  const [availableUntil, setAvailableUntil] = useState(existingAssignment?.availableUntil || "");
 
   const handleSave = () => {
-    if (assignment.title) {
+    if (title) {
+      const updatedAssignment = {
+        _id: aid,
+        title,
+        description,
+        points,
+        dueDate,
+        availableFrom,
+        availableUntil,
+        course: cid,
+      };
+      
+
       if (aid === "new") {
-        dispatch(
-          addAssignment({
-            ...assignment,
-            _id: new Date().getTime().toString(),
-          })
-        );
+        createAssignmentForCourse(updatedAssignment);
       } else {
-        dispatch(updateAssignment(assignment));
+        saveAssignment(updatedAssignment)
       }
       navigate(`/Kanbas/Courses/${cid}/Assignments`);
     }
   };
+
+
+  const createAssignmentForCourse = async (newAssignment: any) => {
+    if (!cid) return;
+    const brandNewAssignment = await coursesClient.createAssignmentForCourse(cid, newAssignment)
+    dispatch(addAssignment(brandNewAssignment));
+  };
+
+  const saveAssignment = async (assignment: any) => {
+    console.log(assignment)
+    await assignmentClient.updateAssignment(assignment);
+    dispatch(updateAssignment(assignment));
+  };
+
+
+
   return (
     <div id="wd-assignments-editor" >
     <h5>Assignment name</h5>
@@ -55,17 +77,17 @@ export default function AssignmentEditor()
         id="wd-name"
         className="form-control"
         onChange={(e) =>
-          setAssignment({ ...assignment, title: e.target.value })
+          setTitle(e.target.value)
         }
-        value={assignment.title}
+        value={title}
       />
     <br />
       <textarea
         className="form-control"
         id="wd-description"
-        value={assignment.description}
+        value={description}
         onChange={(e) =>
-          setAssignment({ ...assignment, description: e.target.value })
+          setDescription(e.target.value)
         }
       ></textarea>
     <br />
@@ -75,7 +97,7 @@ export default function AssignmentEditor()
         <label htmlFor="wd-points">Points</label>
       </div>
       <div className="col-8">
-        <input id="wd-points" className="form-control" value={assignment.points} onChange={(e) => setAssignment({...assignment, points: parseInt(e.target.value) || 0})} />
+        <input id="wd-points" className="form-control" value={points} onChange={(e) => setPoints(parseInt(e.target.value) || 0)} />
       </div>
     </div>
   
@@ -156,7 +178,7 @@ export default function AssignmentEditor()
             <label>Due</label>
           </div>
           <div className="col-8">
-            <input type="date" value={assignment.dueDate} className="form-control" onChange={(e) => setAssignment({...assignment, dueDate: e.target.value})}/>
+            <input type="date" value={dueDate} className="form-control" onChange={(e) => setDueDate(e.target.value)}/>
           </div>
         </div>
         <div className="row mb-3">
@@ -165,9 +187,9 @@ export default function AssignmentEditor()
             <input 
     type="date" 
     id="wd-available-from"
-    value={assignment.availableFrom} 
+    value={availableFrom} 
     className="form-control" 
-    onChange={(e) => setAssignment({...assignment, availableFrom: e.target.value})}
+    onChange={(e) => setAvailableFrom(e.target.value)}
 />
           </div>
   
@@ -176,9 +198,9 @@ export default function AssignmentEditor()
             <input 
     type="date" 
     id="wd-available-until"
-    value={assignment.availableUntil} 
+    value={availableUntil} 
     className="form-control" 
-    onChange={(e) => setAssignment({...assignment, availableUntil: e.target.value})}/>
+    onChange={(e) => setAvailableUntil(e.target.value)}/>
           </div>
         </div>
       </div>
@@ -194,7 +216,7 @@ export default function AssignmentEditor()
         onClick={handleSave}
         type="button"
         id="wd-save"
-        disabled={!assignment.title}
+        disabled={!title}
         className="btn btn-primary me-2"
       >
         Save

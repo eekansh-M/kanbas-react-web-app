@@ -1,24 +1,39 @@
-import React, { useState } from 'react';
-import { FaPlus, FaSearch,  FaEllipsisV, FaTrash } from "react-icons/fa"; 
+import React, { useEffect, useState } from 'react';
+import { FaPlus } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
+import {FaEllipsisV} from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import { FaBook } from "react-icons/fa6";
 import { BsGripVertical } from "react-icons/bs";
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteAssignment} from './reducer';
+import { deleteAssignment, setAssigments} from './reducer';
 import GreenCheckmark from '../Modules/GreenCheckmark';
+import * as coursesClient from "../client";
+import * as assignmentClient from "./client"
 
 export default function Assignments() {
   const { cid } = useParams();
   const dispatch = useDispatch();
-  const assignmentsState = useSelector((state: any) => state.assignmentReducer) || { assignments: [] };
-  const { assignments } = assignmentsState;
-  
+  const [courseAssignments, setCourseAssignments] = useState<any[]>([]);
+  const assignments = useSelector((state: any) => state.assignmentReducer.assignments)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [assignmentToDelete, setAssignmentToDelete] = useState<any>(null);
 
-  const courseAssignments = assignments.filter(
-    (assignment: any) => assignment.course === cid
-  );
+  const fetchCourseAssignments = async () => {
+    const assignmentsList = await coursesClient.findAssignmentsForCourse(cid as string);
+    dispatch(setAssigments(assignmentsList))
+  };
+  useEffect(() => {
+    fetchCourseAssignments();
+  }, []);
+
+  const removeAssignment = async (assignmentId: string) => {
+    await assignmentClient.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId));
+  };
+
+
 
   const handleDeleteClick = (assignment: any) => {
     setAssignmentToDelete(assignment);
@@ -27,7 +42,8 @@ export default function Assignments() {
 
   const handleConfirmDelete = () => {
     if (assignmentToDelete) {
-      dispatch(deleteAssignment(assignmentToDelete._id));
+      console.log(assignmentToDelete);
+      removeAssignment(assignmentToDelete._id);
       setShowDeleteDialog(false);
       setAssignmentToDelete(null);
     }
@@ -71,8 +87,8 @@ export default function Assignments() {
         </div>
 
         <ul className="list-group">
-          {courseAssignments.length > 0 ? (
-            courseAssignments.map((assignment: any) => (
+          {assignments.length > 0 ? (
+            assignments.map((assignment: any) => (
               <li key={assignment._id} className="list-group-item py-4">
                 <div className="d-flex align-items-center">
                   <BsGripVertical className="me-2 text-muted" size={25} />

@@ -28,9 +28,8 @@ export default function Dashboard({
     );
   };
 
-  const displayCourses = showAllCourses || isFaculty(currentUser.role)
-    ? courses
-    : courses.filter((course) => isEnrolled(course._id));
+
+  const displayCourses = courses
 
   return (
     <div id="wd-dashboard">
@@ -83,10 +82,10 @@ export default function Dashboard({
         </>
       )}
 
-      <h2 id="wd-dashboard-published">Published Courses ({displayCourses.length})</h2> <hr />
+      <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2> <hr />
       <div id="wd-dashboard-courses" className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
-          {displayCourses.map((course) => (
+          {courses.map((course) => (
             <div key={course._id} className="wd-dashboard-course col" style={{ width: "300px" }}>
               <div className="card rounded-3 overflow-hidden">
                 <Link

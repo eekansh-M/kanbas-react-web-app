@@ -1,14 +1,15 @@
 import { Routes, Route, Navigate} from "react-router";
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import Account from "./Account/index";
 import Dashboard from "./Dashboard";
 import KanbasNavigation from "./Navigation";
 import Courses from "./Courses/index";
 import './styles.css'
-import * as db from "./Database"
 import ProtectedRoute from "./Account/ProtectedRoute";
+import { useSelector } from "react-redux";
+import * as userClient from "./Account/client";
+import * as courseClient from "./Courses/client";
 export default function Kanbas() {
-  const [courses, setCourses] = useState<any[]>(db.courses);
   const [course, setCourse] = useState<any>({
     _id: "0",
     name: "New Course",
@@ -18,24 +19,40 @@ export default function Kanbas() {
     image: "/images/reactjs.jpg",
     description: "New Description",
   });
-  const addNewCourse = () => {
-    const newCourse = { ...course, _id: new Date().getTime().toString() };
-    setCourses([...courses, newCourse]);
+  const [courses, setCourses] = useState<any[]>([])
+
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const fetchCourses = async () => {
+    try {
+      const coursesList = await userClient.findMyCourses();
+      setCourses(coursesList);
+    } catch (error) {
+      console.error(error);
+    }
   };
-  const deleteCourse = (courseId: string) => {
+  useEffect(() => {
+    fetchCourses();
+  }, [currentUser]);
+
+
+
+
+
+  const addNewCourse = async () => {
+    let newCourse = { ...course, _id: new Date().getTime().toString() };
+    newCourse = await userClient.createCourse(course); 
+    fetchCourses()
+  };
+  const deleteCourse = async (courseId: string) => {
+    const status = await courseClient.deleteCourse(courseId);
     setCourses(courses.filter((course) => course._id !== courseId));
   };
-  const updateCourse = () => {
-    setCourses(
-      courses.map((c) => {
-        if (c._id === course._id) {
-          return course;
-        } else {
-          return c;
-        }
-      })
-    );
+  const updateCourse = async () => {
+    await courseClient.updateCourse(course);
+    fetchCourses()
   };
+
+ 
   return (
     <div id='wd-kanbas'>
       <KanbasNavigation />
