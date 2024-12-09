@@ -12,7 +12,7 @@ import * as modulesClient from "./client";
 
 
 export default function Modules() {
-  const { cid } = useParams();
+  const { cid, aid } = useParams();
   const [moduleName, setModuleName] = useState("");
   const { modules } = useSelector((state: any) => state.modulesReducer);
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ export default function Modules() {
 
   const createModuleForCourse = async () => {
     if (!cid) return;
-    const newModule = { name: moduleName, course: cid };
+    const newModule = { name: moduleName, course: aid };
     const module = await coursesClient.createModuleForCourse(cid, newModule);
     dispatch(addModule(module));
   };

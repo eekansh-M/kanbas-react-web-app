@@ -10,3 +10,4 @@ export const deleteAssignment = async (assignmentId: string) => {
     const { data } = await axios.put(`${ASSIGNMENTS_API}/${assignment._id}`, assignment);
     return data;
   };
+  

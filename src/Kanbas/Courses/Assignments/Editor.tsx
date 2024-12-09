@@ -217,8 +217,7 @@ export default function AssignmentEditor()
         type="button"
         id="wd-save"
         disabled={!title}
-        className="btn btn-primary me-2"
-      >
+        className="btn btn-primary me-2">
         Save
       </button>
   </div>

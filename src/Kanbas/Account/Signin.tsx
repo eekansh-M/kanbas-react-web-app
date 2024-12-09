@@ -12,7 +12,7 @@ export default function Signin() {
     if (!user) return;
     dispatch(setCurrentUser(user));
     navigate("/Kanbas/Dashboard");
-  };
+  }; 
 
   return (
     <div id="wd-signin-screen">
