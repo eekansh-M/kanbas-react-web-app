@@ -8,7 +8,6 @@ const assignmentsSlice = createSlice({
   reducers: {
     setAssigments: (state, {payload: assignments}) => {
       state.assignments = assignments;
-      console.log(state.assignments)
     },
     addAssignment: (state, { payload: assignment }) => {
       const newAssignment: any = {
